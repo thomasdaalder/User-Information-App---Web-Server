@@ -1,0 +1,21 @@
+html
+	head
+	body
+	
+
+.container
+	.row
+		.col-xs-6.offset-xs-3
+			form(action="/result" method="POST")
+				.form-group
+					h1.text-xs-center Add user
+					input(name="query" type="text" class="form-control" placeholder="Add first name")
+					br
+					br
+					input(name="query" type="text" class="form-control" placeholder="Add last name")
+					br
+					br
+					input(name="query" type="text" class="form-control" placeholder="Add email")
+					br
+					br
+					input(value="submit" type="Submit")
