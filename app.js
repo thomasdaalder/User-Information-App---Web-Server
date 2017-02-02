@@ -11,7 +11,7 @@ app.set('view engine', 'pug');
 // app.use(bodyParser.json('/users.json')); // support json encoded bodies
 app.use(bodyParser.urlencoded({	extended: true })); // support encoded bodies
 
-// do a request
+// Hier zie je de index.pug met alle gebruikers.
 app.get('/', (request, response) => {
 	fs.readFile('./users.json', 'utf8', (error, data) =>{
 		console.log('About to render a pug page');
@@ -23,7 +23,7 @@ app.get('/', (request, response) => {
 		response.render('index', {people: userInfo});	
 	});
 });
-
+// Hier zie je de search.pug met een zoek query.
 app.get('/search', (request, response) => {
 	fs.readFile('./users.json', 'utf8', (error, data) =>{
 		console.log('About to render a pug page');
@@ -36,6 +36,20 @@ app.get('/search', (request, response) => {
 	});
 });
 
+// Hier zie je de add_users.pug met 3 forms.
+app.get('/add_users', (request, response) => {
+	fs.readFile('./users.json', 'utf8', (error, data) =>{
+		console.log('About to render a pug page');
+		if (error){
+			throw error;
+		}
+		console.log('readfile is called');
+		const userInfo = JSON.parse(data);
+		response.render('add_users', {people: userInfo});	
+	});
+});
+
+// Hier zie je de result.pug met het resultaat van je zoekopdracht.
 app.post('/result', function(req, res) {
 	console.log('hier doe je een console log')
 		fs.readFile('./users.json', 'utf8', (error, data) =>{
@@ -69,6 +83,10 @@ app.post('/result', function(req, res) {
 		}
 	});	
 	
+});
+
+app.post('/add_users', function(req, res) {
+	console.log('Post request add users')
 });
 
 app.listen(3000, () => {
