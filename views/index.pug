@@ -1,0 +1,14 @@
+html
+	head
+	body
+		h1 Here are the users.
+	
+		each userInfo in people
+			h2 #{userInfo.firstname}
+			p.someClass(style='font-family: Helvetica;') #{userInfo.lastname} 
+			p #{userInfo.email}
+
+		h1 Create users form.
+
+input(type='button', onclick="location.href='/search';", value='Search users')
+
