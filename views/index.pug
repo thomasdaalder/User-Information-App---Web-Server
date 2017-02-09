@@ -1,17 +1,18 @@
 html
 	head
+		link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css')
+	
 	body
 		h1 Here are the users.
-	
 		each userInfo in people
-			h2 #{userInfo.firstname}
+			h5 #{userInfo.firstname}
 			p.someClass(style='font-family: Helvetica;') #{userInfo.lastname} 
 			p #{userInfo.email}
-
-		h1 Create users form.
 
 	input(type='button', onclick="location.href='/search';", value='Search users')
 	
 	input(type='button', onclick="location.href='/add_users';", value='Add users')
 
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js')
 
+	
