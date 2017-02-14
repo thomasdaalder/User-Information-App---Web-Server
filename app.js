@@ -10,6 +10,7 @@ app.set('view engine', 'pug');
 
 // app.use(bodyParser.json('/users.json')); // support json encoded bodies
 app.use(bodyParser.urlencoded({	extended: true })); // support encoded bodies
+app.use(express.static('static'))
 
 // Hier zie je de index.pug met alle gebruikers.
 app.get('/', (request, response) => {
@@ -32,9 +33,13 @@ app.get('/search', (request, response) => {
 		}
 		console.log('readfile is called');
 		const userInfo = JSON.parse(data);
-		response.render('search', {people: userInfo});	
+		response.render('search', {people: userInfo});
 	});
 });
+
+// document.getElementById('name').addEventListener('change', function() {
+//     console.log(this.getAttribute('value'));
+// });
 
 // Hier zie je de add_users.pug met 3 forms.
 app.get('/add_users', (request, response) => {
@@ -49,23 +54,10 @@ app.get('/add_users', (request, response) => {
 	});
 });
 
-// // Dit is de post request van add
-// app.post('/add_users', function(req, res) {
-// 	console.log('add users console log')
-// 		fs.readFile('./users.json', 'utf8', (error, data) =>{
-// 		console.log('Ik maak nu een post request');
-// 		if (error){
-// 			throw error;
-// 		}
-// 		console.log('Ik hoop dat dit werkt');
-// 		console.log(req.body.query)
-// 		const userInfo = JSON.parse(data);
-// 	});	
-// });
 // Hier zie je de result.pug met het resultaat van je zoekopdracht.
 app.post('/result', function(req, res) {
 	console.log('hier doe je een console log')
-		fs.readFile('./users.json', 'utf8', (error, data) =>{
+	fs.readFile('./users.json', 'utf8', (error, data) =>{
 		console.log('Ik maak nu een post request');
 		if (error){
 			throw error;
@@ -75,7 +67,7 @@ app.post('/result', function(req, res) {
 		const userInfo = JSON.parse(data);
 
 		let searchResult = "nothing"
-		for (i=0; i< userInfo.length; i++){
+		for (var i=0; i< userInfo.length; i++){
 			if (userInfo[i].firstname === req.body.query) {
 				console.log("Voornaam komt overeen")
 				searchResult = userInfo[i]
@@ -121,6 +113,40 @@ app.post('/add_users', (request, response) => {
 		})
 	}
 });
+
+app.post('/handlesearchinput', (request, response)=>{
+		// console.log('/handlesearchinput is called')
+		// console.log(request.body)
+	fs.readFile('./users.json', 'utf8', (error, data) =>{
+		// console.log('Ik maak nu een post request');
+		if (error){
+			throw error;
+		}
+		// console.log('werkt de post request?');
+		// console.log(request.body)
+		const userInfo = JSON.parse(data);
+		// console.log(userInfo)
+		
+		let searchResult = []
+
+		for (var i=0; i< userInfo.length; i++){
+			if (userInfo[i].firstname.indexOf(request.body.userInput) > -1) {
+				console.log("Voornaam komt overeen")
+				console.log(request.body.userInput)
+				console.log(userInfo[i].firstname)
+				searchResult.push(userInfo[i])
+				console.log("We zoeken de index van ")
+				console.log(userInfo[i].firstname.indexOf(request.body.userInput))
+			} else {
+				console.log("Voornaam komt niet overeen")
+			}
+		}
+		response.send({names: searchResult});
+
+
+	})
+})
+
 
 app.get('/add_users', (request, response) => {
 	console.log ("User has been added. Thank you!")
