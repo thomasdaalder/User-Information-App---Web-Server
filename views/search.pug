@@ -2,16 +2,48 @@ html
 	head
 	body
 	
-
-.container
-	.row
-		.col-xs-6.offset-xs-3
 			form(action="/result" method="POST")
 				.form-group
 					h1.text-xs-center Search Users
-					input(name="query" type="text" class="form-control" placeholder="Search user")
+					input(name="query", type="text", list="json-datalist", class="form-control", placeholder="Search user")
+					datalist#json-datalist
 					input(value="submit" type="Submit")
-				//- button(type="submit" class="btn btn-success btn-block btn-lg") Search	
-			//- form(action='./users.json', method='post')
-			//- input(type='search', value='first name')
-			//- button Search
+
+
+			script(src='jquery-3.1.1.js')
+			script(type='text/javascript').
+				var dataList = document.getElementById('json-datalist');
+				var input = document.getElementById('ajax');
+				
+				$(".form-control").keypress(function(eventObject){
+
+					var name = $(".form-control")[0].value
+					console.log('we console loggen name')
+					console.log(name+eventObject.key)
+					
+					function postRequestIsFinished(response, status){
+						console.log('postRequestIsFinished is called')
+						// json linken aan datalist
+						$('option').remove()
+						for (var i = 0; i < response.names.length; i++){
+							$('datalist').append("<option>" + response.names[i].firstname + "</option>")
+						}
+
+						console.log ( $('datalist')[0].childNodes)
+						console.log(response)
+
+					}
+
+					var data = {
+						userInput: name+eventObject.key
+					}
+
+					$.post('/handlesearchinput', data, postRequestIsFinished)
+
+						console.log(name+eventObject.key)
+
+					
+
+				})
+			
+				
