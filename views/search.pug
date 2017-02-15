@@ -14,8 +14,13 @@ html
 			script(type='text/javascript').
 				var dataList = document.getElementById('json-datalist');
 				var input = document.getElementById('ajax');
+				var oldTime = 0
+				var newTime = 0
 				
 				$(".form-control").keypress(function(eventObject){
+
+						newTime = new Date()
+						var difference = (newTime - oldTime) 
 
 					var name = $(".form-control")[0].value
 					console.log('we console loggen name')
@@ -37,12 +42,11 @@ html
 					var data = {
 						userInput: name+eventObject.key
 					}
+					if (difference >= 300) {
+						$.post('/handlesearchinput', data, postRequestIsFinished)
+						oldTime = newTime
+						}
 
-					$.post('/handlesearchinput', data, postRequestIsFinished)
-
-						console.log(name+eventObject.key)
-
-					
 
 				})
 			
